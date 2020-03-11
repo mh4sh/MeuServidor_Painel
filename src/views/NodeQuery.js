@@ -250,7 +250,7 @@ class Adicionar extends Component {
     render(){
         const { state } = this;
         return (
-            <div >
+            <>
                 <div className="container mt-5">
                     <div className="row text-dark" id="header">
                         <div className="col-sm-8">
@@ -276,11 +276,10 @@ class Adicionar extends Component {
                                 <button className="btn btn-outline-info" onClick={this.addApi}>{state.loading ? 'Carregando...' : 'Adicionar' }</button>
                                 <Link to={'/nodequery/'} className="btn btn-outline-danger ml-2">Voltar</Link>
                             </div>
-                            
                         </div>
                     </div>
                 </div>
-            </div>
+            </>
         )
     }
 }

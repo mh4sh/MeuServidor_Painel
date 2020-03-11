@@ -119,6 +119,7 @@ export default class Servers extends Component {
                 <div className="container-fluid">
                     
                     <Route path={`/servidores/`} exact component={() => <Listar listServers={state.listServers} limit={state.limit} /> } />
+                    <Route path={`/servidor/adicionar/`} exact component={() => <Adicionar listServers={state.listServers} limit={state.limit} /> } />
                 </div>
             </>
         )
@@ -229,6 +230,28 @@ class Listar extends Component {
                             )})
                         }
                     </div>
+                </div>
+            </>
+        )
+    }
+}
+
+
+class Adicionar extends Component {
+
+    render(){
+        return (
+            <>
+                <div className="container mt-5">
+                    <div className="row text-dark" id="header">
+                        <div className="col-sm-8">
+                            <h2>Adicionar - Servidores</h2>
+                        </div>
+                        <div className="col-sm-4 align-middle">
+                            <Link to={'/nodequery/adicionar/'} target="_blank" className="btn btn-outline-info my-2 my-sm-0 btn-block align-middle">Adicionar Outra Conta</Link>
+                        </div>
+                    </div>
+                    <hr />
                 </div>
             </>
         )
