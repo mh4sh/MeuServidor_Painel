@@ -40,7 +40,8 @@ class App extends Component {
           
           <Switch>
             <Route path={'/'} exact component={(props) => <Home {...props} />} />
-            <Route path={'/servidores/'} exact component={(props) => <Servers {...props} />} />
+            <Route path={'/servidor/'} component={(props) => <Servers {...props} />} />
+            <Route path={'/servidores/'} component={(props) => <Servers {...props} />} />
             <Route path={'/nodequery/'} component={(props) => <NodeQuery {...props} />}  />
           </Switch>
         </Router>

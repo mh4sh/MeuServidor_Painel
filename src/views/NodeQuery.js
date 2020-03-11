@@ -13,8 +13,7 @@ export default class NodeQuery extends Component {
         this.state = {
             listAccounts: null,
             limit: 6, 
-            loading: false,
-            updateLoading: false
+            loading: false
         }
 
         this.addApi = this.addApi.bind(this);
@@ -78,6 +77,7 @@ export default class NodeQuery extends Component {
             this.setState({listAccounts});
         }
     }
+    
     loading(isOn, nivel){
         if(isOn){
             switch (nivel) {
@@ -109,6 +109,7 @@ export default class NodeQuery extends Component {
             })
         }
     }
+
     render(){
         const {state} = this;
         return (
@@ -121,12 +122,12 @@ export default class NodeQuery extends Component {
                             <div role="progressbar" id="progressbar" style={{width: state.position}} aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" className="progress-bar bg-dark">
                             </div>
                         </div>
-                    ) 
+                    )
                 }
                 <div className="container-fluid">
                     <Route path={`/nodequery/`} exact component={() => <Listar listAccounts={state.listAccounts} limit={state.limit}/>} />
                     <Route path={`/nodequery/adicionar/`} component={() => <Adicionar addApi={this.addApi}/>} />
-                    <Route path={`/nodequery/dados/:idAccount`} component={(event) => <Dados updateAccountServers={this.updateAccountServers} removeAccount={this.removeAccount} listAccounts={state.listAccounts} params={event.match.params} updateLoading={state.updateLoading} />} />
+                    <Route path={`/nodequery/dados/:idAccount`} component={(event) => <Dados updateAccountServers={this.updateAccountServers} removeAccount={this.removeAccount} listAccounts={state.listAccounts} params={event.match.params} />} />
                 </div>
             </>
         )
@@ -298,21 +299,19 @@ class Dados extends Component {
         super(props);
 
         this.state = {
-            account: [],
-            updateLoading: false
+            account: []
         }
 
     }
 
     async componentDidMount(){
-        const {params, listAccounts, updateLoading} = this.props;
+        const {params, listAccounts} = this.props;
 
         if(listAccounts!=null){
             const account = await listAccounts.filter(account => account._id===params.idAccount)[0];
             if(account!==undefined){
                 this.setState({
-                    account,
-                    updateLoading
+                    account
                 })
             } else {
                 console.log("ID Inválido!")
