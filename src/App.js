@@ -9,6 +9,8 @@ import Home from './views/Home';
 import NodeQuery from './views/NodeQuery';
 import Servers from './views/Servers';
 
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 
 

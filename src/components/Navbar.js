@@ -28,12 +28,12 @@ class Navbar extends Component {
         return (
             <div className="container-fluid bg-dark shadow-sm">
                 <div className="container">
-                    <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+                    <nav className="navbar navbar-expand-lg navbar-dark bg-dark p-0">
                         <Link to={"/"}>
                             <img src={logo} alt="Meu Servidor" width="30" height="30" />
                         </Link>
                         
-                        <div className="navbar" id="navbarNav">
+                        <div className="navbar p-0" id="navbarNav">
                             <ul className="navbar-nav mr-auto mt-2 mt-lg-0">
                                 <li className={location.pathname==='/' ? "nav-item active" : "nav-item"}>
                                     <Link to={"/"} className="nav-link">Inicio</Link>
