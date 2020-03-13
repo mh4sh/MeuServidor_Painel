@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import { ServersService } from '../services/ServersService';
+import { NodeQueryService } from '../services/NodeQueryService';
 
 import {Link, Route} from 'react-router-dom';
 
@@ -53,7 +54,6 @@ export default class Servers extends Component {
     }
     
     async componentDidMount(){
-        console.log("oi");
         this.loading(true, 1);
         const response = await ServersService.listAll(),
             listServers = response.data.servers,
@@ -133,7 +133,7 @@ class Listar extends Component {
         listServers: {},
         limit: 15
     }
-
+    
     render(){
         const {props} = this;
         if(props.listServers===null){
@@ -195,7 +195,6 @@ class Listar extends Component {
                     <div className="row" id="serversList">
                         {
                             props.listServers.map((item) => {
-                                console.log(item);
                                 return (
                                 <div className="col-sm-4 mb-4" key={item._id}>
                                     <Link to={`/servidor/dados/${item._id}`} className="card">
@@ -239,7 +238,41 @@ class Listar extends Component {
 
 class Adicionar extends Component {
 
+    static defaultProps = {
+        listServers: {},
+        limit: 15
+    }
+    
+    constructor(props){
+        super(props);
+        this.state = {
+            listAccounts: null,
+            accountSelected: {}
+        }
+    }
+
+    async componentDidMount(){
+        const response = await NodeQueryService.listAll(),
+            listAccounts = response.data.accounts;
+        this.setState({
+            listAccounts
+        });
+    }
     render(){
+        const {state, props} = this,
+            {listAccounts, accountSelected} = state;
+        if(listAccounts===null){
+            return <div></div>;
+        }
+
+        if(listAccounts.length===0){
+            return (
+                <div>
+                    para adicioanr um servidor você tem que ter uma conta NodeQuery cadastrada!
+                </div>
+            )
+        }
+
         return (
             <>
                 <div className="container mt-5">
@@ -248,10 +281,36 @@ class Adicionar extends Component {
                             <h2>Adicionar - Servidores</h2>
                         </div>
                         <div className="col-sm-4 align-middle">
-                            <Link to={'/nodequery/adicionar/'} target="_blank" className="btn btn-outline-info my-2 my-sm-0 btn-block align-middle">Adicionar Outra Conta</Link>
+                            <Link to={'/nodequery/adicionar/'} className="btn btn-outline-info my-2 my-sm-0 btn-block align-middle">Adicionar outra Conta</Link>
                         </div>
                     </div>
                     <hr />
+                </div>
+                <div className="container">
+                    <div className="row justify-content-md-center">
+                        <div className="col-sm-6 mt-5 ">
+                            {state.error ? <div className="alert alert-danger" role="alert">{state.msg}</div> : ''}
+                            <div className="col">
+                                <select className="form-control">
+                                    <option value="null">Default select</option>
+                                    {
+                                        listAccounts.map(account => {
+                                            return (
+                                                <option >{account.name}</option>
+                                            )
+                                        })
+                                    }
+                                </select>
+                            </div>
+                            <div className="col mt-3">
+                                <input type="text" className="form-control" placeholder="Selecionar Servidor" name="api" onChange={this.handleChange} value={state.api} />
+                            </div>
+                            <div className="col mt-4">
+                                <button className="btn btn-outline-info" onClick={this.addApi}>{state.loading ? 'Carregando...' : 'Instalar' }</button>
+                                <Link to={'/nodequery/'} className="btn btn-outline-danger ml-2">Voltar</Link>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </>
         )
